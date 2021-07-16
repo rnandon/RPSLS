@@ -1,11 +1,6 @@
-### Do stuff
-from ai import Ai
-from human import Human
+# Do stuff
+from game import Game
 
-human = Human()
-human.select_gesture()
-print(human.get_gesture())
-human.select_gesture()
-print(human.get_gesture())
-human.select_gesture()
-print(human.get_gesture())
+#display welcome message
+get_players = Game()
+get_players.get_number_of_players()
