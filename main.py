@@ -1,7 +1,9 @@
-# Do stuff
+###        IMPORTS
+### ====================
 from game import Game
 
-#display welcome message
+###        INSTANTIATE AND RUN GAME
+### ==================================
 game = Game()
 game.display_welcome()
 game.get_number_of_players()
