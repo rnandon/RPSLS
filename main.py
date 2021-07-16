@@ -2,5 +2,8 @@
 from game import Game
 
 #display welcome message
-get_players = Game()
-get_players.get_number_of_players()
+game = Game()
+game.display_welcome()
+game.get_number_of_players()
+game.run_game()
+game.display_winner()
