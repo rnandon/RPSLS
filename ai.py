@@ -12,6 +12,3 @@ class Ai(Player):
         random_gesture_selector = random.randint(0, len(self.gestures) - 1) # get rand int for range of gestures list - set as current gesture
         selected_gesture = self.gestures[random_gesture_selector]
         self.set_gesture(selected_gesture)
-        
-        print(selected_gesture)
-        print(self.current_gesture)
