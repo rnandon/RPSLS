@@ -1,5 +1,11 @@
 ### Do stuff
 from ai import Ai
+from human import Human
 
-ai_gesture = Ai()
-ai_gesture.select_gesture()
+human = Human()
+human.select_gesture()
+print(human.get_gesture())
+human.select_gesture()
+print(human.get_gesture())
+human.select_gesture()
+print(human.get_gesture())
