@@ -94,6 +94,7 @@ class Game:
         p1_won = False
 
         if player1_gesture == player2_gesture:
+            print("Draw!")
             return
 
         # Check all cases
