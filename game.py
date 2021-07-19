@@ -11,6 +11,9 @@ class Game:
         self.player2 = None # Can be human or ai player
         self.winner = None
 
+        # Start the game
+        self.run_game()
+
 
     ###        DISPLAY METHODS
     ### =======================================
@@ -65,8 +68,16 @@ class Game:
     ### ======================================================
     # Main game loop  
     def run_game(self):
+        # Initialize game screen
+        self.display_welcome()
+        self.get_number_of_players()
+
+        # Core game loop
         while not self.winner:
             self.round()
+
+        # Once there is a winner, show it
+        self.display_winner()
 
     # Main controller for game functions
     def round(self):
