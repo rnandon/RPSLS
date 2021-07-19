@@ -102,37 +102,18 @@ class Game:
     def get_round_winner(self, player1_gesture, player2_gesture):
         # If both gestures are the same, nobody wins
         # Otherwise either player1 or player2 won (not both)
-        p1_won = False
+        p1_won = player1_gesture.check_against_opponent(player2_gesture)
+        p2_won = player2_gesture.check_against_opponent(player1_gesture)
 
-        if player1_gesture == player2_gesture:
-            print("Draw!")
-            return
-
-        # Check all cases
-        # TODO - Refactor into new method
-        if player1_gesture == "Rock":
-            if player2_gesture == "Scissors" or player2_gesture == "Lizard":
-                p1_won = True
-        elif player1_gesture == "Scissors":
-            if player2_gesture == "Paper" or player2_gesture == "Lizard":
-                p1_won = True
-        elif player1_gesture == "Paper":
-            if player2_gesture == "Rock" or player2_gesture == "Spock":
-                p1_won = True
-        elif player1_gesture == "Lizard":
-            if player2_gesture == "Paper" or player2_gesture == "Spock":
-                p1_won = True
-        elif player1_gesture == "Spock":
-            if player2_gesture == "Scissors" or player2_gesture == "Rock":
-                p1_won = True
-
-        # Display who won, increment player's win count
         if p1_won:
             self.player1.win_round()
             print("Player 1 won the round!")
-        else:
+        elif p2_won:
             self.player2.win_round()
             print("Player 2 won the round!")
+        else:
+            print("Draw!")
+            return
 
     # Check if someone has won the entire game
     def check_for_game_winner(self):
