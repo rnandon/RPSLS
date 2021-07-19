@@ -46,10 +46,10 @@ class Game:
     # Main game loop  
     def run_game(self):
         # Initialize game screen
-        start_or_show_rules = self.ui.display_welcome(['Rock, Paper, Scissors,', 'Lizard, Spock'])
+        self.ui.display_welcome(['Rock, Paper, Scissors,', 'Lizard, Spock'])
         self.get_number_of_players()
 
-        # Core game loop
+        # Core game loop - while there is no game winner the game continues
         while not self.winner:
             self.round()
 
@@ -58,29 +58,34 @@ class Game:
 
     # Main controller for game functions
     def round(self):
+        # instantiate player turn method below
         self.player_turn(self.player1)
         self.player_turn(self.player2)
 
+        #store player gesture in variable
         player1_gesture = self.player1.get_gesture()
         player2_gesture = self.player2.get_gesture()
 
-        # Replace with ui element
-        
-
+        #determine the round winner
         winner = self.get_round_winner(player1_gesture, player2_gesture)
+
+        #displays player selections and round results
         self.ui.display_results(player1_gesture, player2_gesture, winner)
 
+        #check to see if a player has won two times and won game
         self.check_for_game_winner()
 
     # Have the player select a gesture
     def player_turn(self, player):
         new_gesture_name = ""
 
+        # get player gesture selection
         if player.is_human:
             new_gesture_name = self.ui.display_game_screen()
         else:
             new_gesture_name = player.select_gesture()
 
+        #pass gesture into player
         player.set_gesture(new_gesture_name)
 
         
@@ -90,6 +95,7 @@ class Game:
         # Otherwise either player1 or player2 won (not both)
         p1_won = player1_gesture.check_against_opponent(player2_gesture)
         p2_won = player2_gesture.check_against_opponent(player1_gesture)
+
 
         if p1_won:
             self.player1.win_round()
