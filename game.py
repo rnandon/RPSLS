@@ -2,6 +2,7 @@
 ### =======================
 from human import Human
 from ai import Ai
+from user_interface import User_Interface
 
 class Game:
     ###        INITIALIZERS
@@ -10,27 +11,15 @@ class Game:
         self.player1 = None # Will always be a human player
         self.player2 = None # Can be human or ai player
         self.winner = None
+        self.winner_name = ""
+        self.ui = User_Interface()
 
         # Start the game
         self.run_game()
 
 
-    ###        DISPLAY METHODS
+    ###        DISPLAY METHODS  => moving to ui
     ### =======================================
-    # Show welcome message and rules
-    def display_welcome(self):
-        print("Welcome to Rock Paper Scissors Lizard Spock!!\n" + 
-            "Here are the Rules:\n\n" +
-            "Rock crushes Scissors\n" +
-            "Scissors cuts Paper\n" +
-            "Paper covers Rock\n" +
-            "Rock crushes Lizard\n" +
-            "Lizard poisons Spock\n" +
-            "Spock smashes Scissors\n" +
-            "Scissors decapitates Lizard\n" +
-            "Lizard eats Paper\n" +
-            "Paper disproves Spock\n" +
-            "Spock vaporizes Rock\n")
 
     # Display who won the game
     def display_winner(self):
@@ -41,19 +30,7 @@ class Game:
 
     # Prompt user for number of players and initialize the player objects
     def get_number_of_players(self):
-        #display select player "menu"
-        print("How many people are playing?  (1 or 2)")
-
-        user_options = ["1", "2"]
-
-        # Get user selection
-        selection_invalid = True
-
-        # Validate user selection
-        while selection_invalid:
-            user_selection = input()
-            if user_selection in user_options:
-                selection_invalid = False
+        user_selection = self.ui.display_player_number_prompt()
         
         #instantiate players
         if user_selection == "2":
@@ -69,7 +46,7 @@ class Game:
     # Main game loop  
     def run_game(self):
         # Initialize game screen
-        self.display_welcome()
+        start_or_show_rules = self.ui.display_welcome(['Rock, Paper, Scissors,', 'Lizard, Spock'])
         self.get_number_of_players()
 
         # Core game loop
@@ -77,7 +54,7 @@ class Game:
             self.round()
 
         # Once there is a winner, show it
-        self.display_winner()
+        self.ui.display_winner(self.winner_name)
 
     # Main controller for game functions
     def round(self):
@@ -87,16 +64,25 @@ class Game:
         player1_gesture = self.player1.get_gesture()
         player2_gesture = self.player2.get_gesture()
 
-        print(f'Player 1 chose: {player1_gesture}\nPlayer 2 chose: {player2_gesture}')
+        # Replace with ui element
+        
 
-        self.get_round_winner(player1_gesture, player2_gesture)
+        winner = self.get_round_winner(player1_gesture, player2_gesture)
+        self.ui.display_results(player1_gesture, player2_gesture, winner)
 
         self.check_for_game_winner()
 
     # Have the player select a gesture
     def player_turn(self, player):
-        # Human players get prompted, AI players automatically select
-        player.select_gesture()
+        new_gesture_name = ""
+
+        if player.is_human:
+            new_gesture_name = self.ui.display_game_screen()
+        else:
+            new_gesture_name = player.select_gesture()
+
+        player.set_gesture(new_gesture_name)
+
         
     # Check to see who won the round
     def get_round_winner(self, player1_gesture, player2_gesture):
@@ -107,13 +93,12 @@ class Game:
 
         if p1_won:
             self.player1.win_round()
-            print("Player 1 won the round!")
+            return "Player 1"
         elif p2_won:
             self.player2.win_round()
-            print("Player 2 won the round!")
+            return "Player 2"
         else:
-            print("Draw!")
-            return
+            return None
 
     # Check if someone has won the entire game
     def check_for_game_winner(self):
@@ -124,5 +109,7 @@ class Game:
         # If either player has 2 or more wins, then they have won best of 3
         if player1_wins >= 2:
             self.winner = self.player1
+            self.winner_name = "Player 1"
         elif player2_wins >= 2:
             self.winner = self.player2
+            self.winner_name = "Player 2"

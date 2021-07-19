@@ -3,19 +3,13 @@
 from player import Player
 
 class Human(Player):
-    # Gets init method from Player class
+    def __init__(self):
+        super().__init__()
+        self.is_human = True
 
     # Distinct implementation, prompts user for input
     def select_gesture(self):
-        # Display options
-        option_string = "Please select an option: \n\n"
-        user_options = ['1', '2', '3', '4', '5']
-        options_values = ['Rock', 'Paper', 'Scissors', 'Lizard', 'Spock']
-        option_string += '''    1. Rock
-    2. Paper
-    3. Scissors
-    4. Lizard
-    5. Spock'''
+        
 
         # Get and validate user selection
         selection_invalid = True

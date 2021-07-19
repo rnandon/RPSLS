@@ -10,6 +10,7 @@ class Player:
     def __init__(self):
         self.current_gesture = None
         self.total_wins = 0
+        self.is_human = False
         self.gestures = {"Rock": Rock(), "Paper": Paper(), "Scissors": Scissors(), "Lizard": Lizard(), "Spock": Spock()}
 
     # Get and set current gesture
